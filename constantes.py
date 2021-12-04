@@ -10,6 +10,9 @@ DIFF = 2
 RANK = 3
 EXIT = 4
 
+SPR = 0
+HVR = 1
+
 # Menu screen -------------------------------------------
 
 # Positioning
