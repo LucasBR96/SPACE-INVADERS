@@ -17,7 +17,7 @@ HVR = 1
 
 # Positioning
 BUTTON_W = 200
-BUTTON_H = 100
+BUTTON_H = 70
 W_GAP    = 80
 
 PLAY_POS = ( W_GAP , SCREEN_H/2 - BUTTON_H/2 )
@@ -41,9 +41,9 @@ EXIT_HVR = 'assets/hover_sair.png'
 
 #---------------------------------------------------
 #Dificulade
-EASY = 1
-MEDM = 2
-HARD = 3
+EASY = 0
+MEDM = 1
+HARD = 2
 
 
 DIFF_POSP = ( ( SCREEN_W - BUTTON_W )/2 , ( SCREEN_H - BUTTON_H )/2 )
@@ -55,9 +55,9 @@ DIFF_SPRS[ HARD ] = 'assets/diff/hard.png'
 ADD = 0
 RMV = 1
 
-ADD_DIF_X0 = ( DIFF_POS[ 0 ] - W_GAP - BUTTON_H )
-ADD_DIF_X1 = ( DIFF_POS[ 0 ] + W_GAP + BUTTON_W )
-ADD_DIF_Y  = DIFF_POS[ 1 ]
+ADD_DIF_X0 = ( DIFF_POSP[ 0 ] - W_GAP - BUTTON_H )
+ADD_DIF_X1 = ( DIFF_POSP[ 0 ] + W_GAP + BUTTON_W )
+ADD_DIF_Y  = DIFF_POSP[ 1 ]
 
 ALTER_POS = {}
 ALTER_POS[ ADD ] = ( ADD_DIF_X1 , ADD_DIF_Y )

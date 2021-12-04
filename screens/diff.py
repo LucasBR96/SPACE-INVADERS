@@ -7,44 +7,44 @@ import time
 
 class Diff():
 
+    diff_options = [ 0 ]*3
+
+    add_btn = [ SPR , SPR ]
+    btn_opt = [ [ 0 , 0 ] , [ 0 , 0 ] ]
+
     @staticmethod
     def start():
 
-        Diff.selected = MEDM
-        Diff.set_diff()
+        Diff.selected_df = MEDM
+
+        for x in [ EASY , MEDM , HARD ]:
+            Diff.diff_options[ x ] = Sprite( DIFF_SPRS[ x ] )
+            Diff.diff_options[ x ].set_position( *DIFF_POSP )
         
-        Diff.alter_buttons = {}
-        Diff.change_alt_button( ADD )
-        Diff.change_alt_button( RMV )
+        for x in [ ADD , RMV ]:
+            Diff.btn_opt[ x ][ SPR ] = Sprite( ALTER_SPR[ x ] )
+            Diff.btn_opt[ x ][ SPR ].set_position( *ALTER_POS[ x ] )
+
+            Diff.btn_opt[ x ][ HVR ] = Sprite( ALTER_HVR[ x ] )
+            Diff.btn_opt[ x ][ HVR ].set_position( *ALTER_POS[ x ] )
 
         Diff.running = True
         Diff.next_screen = None
 
     @staticmethod
-    def set_diff():
-        Diff.center_button = Sprite( DIFF_SPRS[ Diff.selected ] )
-        Diff.center_button.set_position( *DIFF_POSP )
-    
-    def change_alt_button( butt , hvr = False ):
-
-        img = ALTER_SPR[ butt ]
-        if hvr:
-            img = ALTER_HVR[ butt ]
-        pos = ALTER_POS[ butt ]
-
-        Diff.alter_buttons[ butt ] = Sprite( img )
-        Diff.alter_buttons[ butt ].set_position( *pos )
-
-    @staticmethod
     def render_objects( ):
-        
-        Diff.center_button.draw()
-        
-        if Diff.selected != HARD:
-            Diff.alter_buttons[ ADD ].draw()
-        
-        if Diff.selected != EASY:
-            Diff.alter_buttons[ RMV ].draw()
+
+        pos = Diff.selected_df
+        selected_diff = Diff.diff_options[ pos ]
+        selected_diff.draw()
+
+        x = Diff.add_btn[ ADD ]
+        spr = Diff.btn_opt[ ADD ][ x ]
+        spr.draw()
+
+        x = Diff.add_btn[ RMV ]
+        spr = Diff.btn_opt[ RMV ][ x ]
+        spr.draw()
 
     @staticmethod
     def update( ):
@@ -56,26 +56,21 @@ class Diff():
         if kb.key_pressed( "esc" ):
             Diff.running = False
             Diff.next_screen = MENU
-
+        
         if ms.is_off_screen():
             return
         
-        for butt in [ ADD , RMV ]:
+        for x in [ ADD , RMV ]:
 
-            spr = Diff.alter_buttons[ butt ]
-            hvr = False
-            if ms.is_over_object( spr ):
-                hvr = True
-            Diff.change_alt_button( butt , hvr )
-
-            if not( hvr and ms.is_button_pressed( 1 ) ):
+            spr = Diff.btn_opt[ x ][ 0 ]
+            if not ms.is_over_object( spr ):
+                Diff.add_btn[ x ] = SPR
                 continue
+            Diff.add_btn[ x ] = HVR
 
-            val = 1 if butt == ADD else -1
-            Diff.selected += val
-            if Diff.selected > HARD: Diff.selected = HARD
-            elif Diff.selected < EASY: Diff.selected = EASY
 
-            time.sleep( .3 )  
+
+
+
 
 
