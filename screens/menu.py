@@ -2,6 +2,7 @@ from constantes import *
 
 import PPlay
 from PPlay.sprite import *
+from PPlay.gameimage import *
 
 import pygame
 from pygame.locals import *
@@ -46,7 +47,7 @@ class Menu:
             a = ms.is_over_object( button )
             b = ms.is_button_pressed( 1 )
             if a:
-                print( i )
+                button.image = GameImage( PLAY_HVR )
 
             if a and b:
                 Menu.running = False

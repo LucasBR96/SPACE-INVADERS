@@ -42,20 +42,28 @@ EASY = 1
 MEDM = 2
 HARD = 3
 
-DIFF_POS = ( ( SCREEN_W - BUTTON_W )/2 , ( SCREEN_H - BUTTON_H )/2 )
-DIFF_SPR = {}
-DIFF_SPR[ EASY ] = 'assets/diff/easy.png'
-DIFF_SPR[ MEDM ] = 'assets/diff/medm.png'
-DIFF_SPR[ HARD ] = 'assets/diff/hard.png'
+
+DIFF_POSP = ( ( SCREEN_W - BUTTON_W )/2 , ( SCREEN_H - BUTTON_H )/2 )
+DIFF_SPRS = {}
+DIFF_SPRS[ EASY ] = 'assets/diff/easy.png'
+DIFF_SPRS[ MEDM ] = 'assets/diff/medm.png'
+DIFF_SPRS[ HARD ] = 'assets/diff/hard.png'
+
+ADD = 0
+RMV = 1
 
 ADD_DIF_X0 = ( DIFF_POS[ 0 ] - W_GAP - BUTTON_H )
 ADD_DIF_X1 = ( DIFF_POS[ 0 ] + W_GAP + BUTTON_W )
 ADD_DIF_Y  = DIFF_POS[ 1 ]
 
-ADD_POS = ( ADD_DIF_X1 , ADD_DIF_Y )
-ADD_SPR = 'assets/diff/add.png'
-ADD_HVR = 'assets/diff/ahvr.png'
+ALTER_POS = {}
+ALTER_POS[ ADD ] = ( ADD_DIF_X1 , ADD_DIF_Y )
+ALTER_POS[ RMV ] = ( ADD_DIF_X0 , ADD_DIF_Y )
 
-RMV_POS = ( ADD_DIF_X0 , ADD_DIF_Y )
-RMV_SPR = 'assets/diff/rmv.png'
-RMV_HVR = 'assets/diff/rhvr.png'
+ALTER_SPR = {}
+ALTER_SPR[ ADD ] = 'assets/diff/add.png'
+ALTER_SPR[ RMV ] = 'assets/diff/rmv.png'
+
+ALTER_HVR = {}
+ALTER_HVR[ ADD ] = 'assets/diff/ahvr.png'
+ALTER_HVR[ RMV ] = 'assets/diff/rhvr.png'
