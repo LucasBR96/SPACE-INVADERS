@@ -52,7 +52,6 @@ class Menu:
     def update():
         pass
     
-        
     @staticmethod
     def get_input( kb , ms ):
 

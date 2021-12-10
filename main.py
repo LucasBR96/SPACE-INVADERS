@@ -23,8 +23,13 @@ def switch_screen():
     # screen_options = [ Menu , Play , Diff , Rank ]
     screen_options = [ Menu , Play , Diff ]
     screen = screen_options[ screen.next_screen ]
-    screen.start()
 
+    screen.start()
+    if screen == Play:
+        try:
+            screen.diff = Diff.selected_df
+        except AttributeError:
+            screen.diff = MEDM
 
 def init_globals():
 

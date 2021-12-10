@@ -45,6 +45,11 @@ SHIP_SPEED = 200 #pixels per second
 
 SHIP_SPR = 'assets/game_sprites/nave.png'
 SHIP_POS = ( 0 , ( SCREEN_H - SHIP_H )/2 )
+
+BOLT_SPR = 'assets/game_sprites/bolt.png'
+BOLT_SPEED = 500
+BOLT_RELOAD = .6
+
 #---------------------------------------------------
 #Dificulade
 EASY = 0

@@ -13,6 +13,7 @@ class ship( Sprite ):
 
         super().__init__( SHIP_SPR )
         self.set_position( *SHIP_POS )
+        self.last_fire = None
     
     def adjust( self ):
 
