@@ -68,6 +68,20 @@ class Diff():
                 continue
             Diff.add_btn[ x ] = HVR
 
+            if not ms.is_button_pressed( 1 ):
+                continue
+
+            val = 1 - 2*x
+            Diff.selected_df += val
+            if Diff.selected_df > HARD:
+                Diff.selected_df = HARD
+
+            elif Diff.selected_df < EASY:
+                Diff.selected_df = EASY
+            
+            time.sleep( .3 )
+
+
 
 
 
