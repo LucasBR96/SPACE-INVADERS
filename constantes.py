@@ -21,30 +21,35 @@ BUTTON_H = 70
 W_GAP    = 80
 
 PLAY_POS = ( W_GAP , SCREEN_H/2 - BUTTON_H/2 )
-PLAY_SPR = 'assets/botao_jogar.png'
-PLAY_HVR = 'assets/hover_jogar.png'
+PLAY_SPR = 'assets/menu/botao_jogar.png'
+PLAY_HVR = 'assets/menu/hover_jogar.png'
 
 DIFF_POS = ( 2*W_GAP + BUTTON_W , PLAY_POS[ 1 ] )
-DIFF_SPR = 'assets/botao_diff.png'
-DIFF_HVR = 'assets/hover_diff.png'
+DIFF_SPR = 'assets/menu/botao_diff.png'
+DIFF_HVR = 'assets/menu/hover_diff.png'
 
 RANK_POS = ( 3*W_GAP + 2*BUTTON_W , PLAY_POS[ 1 ] )
-RANK_SPR = 'assets/botao_rank.png'
-RANK_HVR = 'assets/hover_rank.png'
+RANK_SPR = 'assets/menu/botao_rank.png'
+RANK_HVR = 'assets/menu/hover_rank.png'
 
 EXIT_POS = ( 4*W_GAP + 3*BUTTON_W  , PLAY_POS[ 1 ] )
-EXIT_SPR = 'assets/botao_sair.png'
-EXIT_HVR = 'assets/hover_sair.png'
+EXIT_SPR = 'assets/menu/botao_sair.png'
+EXIT_HVR = 'assets/menu/hover_sair.png'
 
 #---------------------------------------------------
 #jogo em si
 
+SHIP_W = 48
+SHIP_H = 52
+SHIP_SPEED = 200 #pixels per second
+
+SHIP_SPR = 'assets/game_sprites/nave.png'
+SHIP_POS = ( 0 , ( SCREEN_H - SHIP_H )/2 )
 #---------------------------------------------------
 #Dificulade
 EASY = 0
 MEDM = 1
 HARD = 2
-
 
 DIFF_POSP = ( ( SCREEN_W - BUTTON_W )/2 , ( SCREEN_H - BUTTON_H )/2 )
 DIFF_SPRS = {}

@@ -48,7 +48,11 @@ class Menu:
             spr = Menu.buttons[ a ][ b ]
             spr.draw()
 
+    @staticmethod
+    def update():
+        pass
     
+        
     @staticmethod
     def get_input( kb , ms ):
 

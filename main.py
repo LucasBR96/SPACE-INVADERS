@@ -55,6 +55,7 @@ def main():
         if screen.running:
             screen.render_objects()
             screen.get_input( kb , ms )
+            screen.update()
         else:
             switch_screen()
 
