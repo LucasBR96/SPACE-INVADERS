@@ -50,6 +50,17 @@ BOLT_SPR = 'assets/game_sprites/bolt.png'
 BOLT_SPEED = 500
 BOLT_RELOAD = .6
 
+MINION_W = 21
+MINION_H = 26
+GAP_W = MINION_W/2
+GAP_H = MINION_H/2
+MINION_ROW = 8
+MINION_COL = 3
+
+MINION_SPEED_Y = SCREEN_H/3
+MINION_SPEED_X = -SCREEN_W/48
+
+MINION_SPRITE = "assets/game_sprites/minion.png"
 #---------------------------------------------------
 #Dificulade
 EASY = 0

@@ -19,6 +19,8 @@ class Play:
 
         Play.ship = jogo_utils.ship() 
         Play.ship_bolts = deque([])
+
+        Play.minions = jogo_utils.minion_matrix()
         Play.diff = EASY
 
     @staticmethod
@@ -69,7 +71,10 @@ class Play:
         Play.ship.draw()
         for bolt in Play.ship_bolts:
             bolt.draw()
-        pass
+        
+        mat = Play.minions
+        for minion in mat.yield_minions():
+            minion.draw()
 
     @staticmethod
     def update( ):
@@ -83,6 +88,9 @@ class Play:
         
         Play.ship.adjust()
         Play.bolt_update()
+
+        Play.minions.move( Play.last_dt )
+        Play.minions.adjust()
 
 
     @staticmethod
