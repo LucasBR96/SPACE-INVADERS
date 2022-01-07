@@ -115,7 +115,6 @@ class minion_matrix:
             return
 
         posicoes = self.eligible_for_col()
-
         m  = [ self.minion_pos( x , y ) for x , y in posicoes ]
         xs = [ x for ( x , _ ) in m ]
         ys = [ y for ( _ , y ) in m ]
@@ -141,7 +140,7 @@ class minion_matrix:
         if not candidate_bolts:
             return
         
-        # true_col = []
+        count = 0
         for bolt in candidate_bolts:
             for x , y  in posicoes:
 
@@ -149,6 +148,8 @@ class minion_matrix:
                 if bolt.collided( minion ):
                     self.mat[ x , y ] = 0
                     ship_bolts.remove( bolt )
+                    count += 1
                     break
+        return count
 
         

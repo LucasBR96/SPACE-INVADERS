@@ -61,6 +61,13 @@ MINION_SPEED_Y = SCREEN_H/3
 MINION_SPEED_X = -SCREEN_W/48
 
 MINION_SPRITE = "assets/game_sprites/minion.png"
+
+SCORE_MIN = 1
+SCORE_MAX = 4
+SCORE_K   = .7
+
+SCORE_FONT = 16
+SCORE_POS  = ( SCREEN_W/2 , 20 )
 #---------------------------------------------------
 #Dificulade
 EASY = 0

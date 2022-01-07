@@ -58,7 +58,10 @@ def main():
         fundo.draw()
 
         if screen.running:
-            screen.render_objects()
+            if screen == Play:
+                screen.render_objects( janela )
+            else:
+                screen.render_objects()
             screen.get_input( kb , ms )
             screen.update()
         else:

@@ -3,6 +3,7 @@ from collections import deque
 
 import PPlay
 from PPlay.sprite import *
+from numpy import exp
 
 from constantes import *
 from screens import jogo_utils
@@ -19,6 +20,8 @@ class Play:
 
         Play.ship = jogo_utils.ship() 
         Play.ship_bolts = deque([])
+        Play.last_hit   = time.time()
+        Play.score      = 0
 
         Play.minions = jogo_utils.minion_matrix()
         Play.diff = EASY
@@ -53,6 +56,18 @@ class Play:
         Play.ship_bolts.appendleft( bolt )
     
     @staticmethod
+    def update_scores( count ):
+        
+        if count == 0:
+            return
+
+        dt = time.time() - Play.last_hit
+        Play.last_hit += dt
+
+        score = count*( SCORE_MIN + SCORE_MAX*exp( -SCORE_K*dt ))
+        Play.score += score
+
+    @staticmethod
     def bolt_update():
 
         dx = BOLT_SPEED*Play.last_dt
@@ -70,7 +85,7 @@ class Play:
                 break
             
     @staticmethod
-    def render_objects( ):
+    def render_objects( window ):
 
         Play.ship.draw()
         for bolt in Play.ship_bolts:
@@ -79,6 +94,10 @@ class Play:
         mat = Play.minions
         for minion in mat.yield_minions():
             minion.draw()
+
+        #renderizando o score
+        s = "{:.2f}".format( Play.score )
+        window.draw_text( s , SCREEN_W/2, 20 , size = SCORE_FONT , color = ( 255 , 255 , 255 ) )
 
     @staticmethod
     def update( ):
@@ -96,7 +115,10 @@ class Play:
 
         Play.minions.move( Play.last_dt )
         Play.minions.adjust()
-        Play.minions.check_bolt_collision( Play.ship_bolts )
+        count = Play.minions.check_bolt_collision( Play.ship_bolts )
+        if count is None:
+            return
+        Play.update_scores( count )
 
     @staticmethod
     def get_input( kb , ms ):
