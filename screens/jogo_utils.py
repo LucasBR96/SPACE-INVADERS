@@ -47,6 +47,14 @@ class minion_matrix:
 
         return ( minion_x, minion_y )
 
+    def spawn_minion( self , x , y ):
+
+        minion_x, minion_y = self.minion_pos( x , y )
+        minion = Sprite( MINION_SPRITE )
+        minion.set_position( minion_x , minion_y )
+
+        return minion
+
     def yield_minions( self ):
 
         for x in range( self.row ):
@@ -55,11 +63,32 @@ class minion_matrix:
                 if self.mat[ x , y ] == 0:
                     continue
 
-                minion_x, minion_y = self.minion_pos( x , y )
-                minion = Sprite( MINION_SPRITE )
-                minion.set_position( minion_x , minion_y )
+                yield self.spawn_minion( x , y )
 
-                yield minion
+    def move( self , dt ):
+
+        x , y = self.corner
+
+        x += MINION_SPEED_X*dt
+        k = -1 if self.moving_up else 1
+        y += k*MINION_SPEED_Y*dt
+
+        self.corner = ( x , y )
+
+    def adjust( self ):
+
+        '''
+            Corrige a posicao dos minions caso eles escapem da tela
+        '''
+        x , y = self.corner
+
+        if y < 0:
+            self.corner = ( x , 0 )
+            self.moving_up = False
+        
+        if y + self.row*( MINION_H + GAP_H) > SCREEN_H:
+            self.corner = ( x , SCREEN_H - self.row*( MINION_H + GAP_H) ) 
+            self.moving_up = True
 
     def eligible_for_col( self ):
 
@@ -79,26 +108,37 @@ class minion_matrix:
                 break
         
         return posicoes
-    
-    def move( self , dt ):
 
-        x , y = self.corner
+    def check_bolt_collision( self , ship_bolts ):
 
-        x += MINION_SPEED_X*dt
-        k = -1 if self.moving_up else 1
-        y += k*MINION_SPEED_Y*dt
+        posicoes = self.eligible_for_col()
 
-        self.corner = ( x , y )
+        m  = map( self.minion_pos , posicoes )
+        xs = [ x for ( x , _ ) in m ]
+        ys = [ y for ( _ , y ) in m ]
+        box_x1 = min( xs )
+        box_x2 = max( xs ) + MINION_W
+        box_y1 = min( ys )
+        box_y2 = max( ys ) + MINION_H
 
-    def adjust( self ):
+        candidate_bolts = []
+        for bolt in ship_bolts:
+            
+            a = ( bolt.x + bolt.width < box_x1 )
+            b = ( bolt.y + bolt.height < box_y1 )
+            c = ( bolt.y > box_y2 )
+            if any( [ a , b , c ] ):
+                continue
 
-        x , y = self.corner
+            if bolt.x > box_x2:
+                break
 
-        if y < 0:
-            self.corner = ( x , 0 )
-            self.moving_up = False
+            candidate_bolts.append( bolt )
+
+        for bolt in candidate_bolts:
+            for x , y  in posicoes:
+
+                minion = self.spawn_minion( x , y )
+                if bolt.collided_perfect( minion ):
+                    self.mat[ x , y ] = 0
         
-        if y + self.row*( MINION_H + GAP_H) > SCREEN_H:
-            self.corner = ( x , SCREEN_H - self.row*( MINION_H + GAP_H) ) 
-            self.moving_up = True
-

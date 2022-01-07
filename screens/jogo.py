@@ -35,9 +35,14 @@ class Play:
 
         ship = Play.ship
         wait = BOLT_RELOAD*( Play.diff + 1 )
+
+        #----------------------------------------------------
+        # Vendo se a nave pode atirar. Isso ocorre quando o tempo
+        # passado desde o ultimo disparo e maior que o limite mínimo
+        # O primeiro if é executado quando o player da o primeiro dis
+        # paro da partida.
         if ship.last_fire is None:
             ship.last_fire = Play.last_t - wait
-        
         if ship.last_fire + wait > Play.last_t:
             return        
         ship.last_fire = time.time()
@@ -64,7 +69,6 @@ class Play:
                 Play.ship_bolts.append( bolt )
                 break
             
-
     @staticmethod
     def render_objects( ):
 
@@ -79,6 +83,7 @@ class Play:
     @staticmethod
     def update( ):
 
+        # Atualizacao do clock do jogo
         t = time.time()
         Play.last_dt = t - Play.last_t
         Play.last_t = t
@@ -86,12 +91,12 @@ class Play:
         if not( Play.running ):
             return
         
-        Play.ship.adjust()
-        Play.bolt_update()
+        Play.ship.adjust() # ver se o ship escapou da tela
+        Play.bolt_update() # calculando as posicoes dos tiros
 
         Play.minions.move( Play.last_dt )
         Play.minions.adjust()
-
+        Play.minions.check_bolt_collision( Play.ship_bolts )
 
     @staticmethod
     def get_input( kb , ms ):
