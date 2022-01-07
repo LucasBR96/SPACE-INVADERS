@@ -101,19 +101,22 @@ class minion_matrix:
         posicoes = []
         row , col = self.row , self.col
 
-        for x in row:
-            for y in col:
+        for x in range( row ):
+            for y in range( col ):
                 if self.mat[ x , y ] == 1:
                     posicoes.append( ( x , y ) )
-                break
+                    break
         
         return posicoes
 
     def check_bolt_collision( self , ship_bolts ):
 
+        if not ship_bolts:
+            return
+
         posicoes = self.eligible_for_col()
 
-        m  = map( self.minion_pos , posicoes )
+        m  = [ self.minion_pos( x , y ) for x , y in posicoes ]
         xs = [ x for ( x , _ ) in m ]
         ys = [ y for ( _ , y ) in m ]
         box_x1 = min( xs )
@@ -134,11 +137,18 @@ class minion_matrix:
                 break
 
             candidate_bolts.append( bolt )
-
+        
+        if not candidate_bolts:
+            return
+        
+        # true_col = []
         for bolt in candidate_bolts:
             for x , y  in posicoes:
 
                 minion = self.spawn_minion( x , y )
-                if bolt.collided_perfect( minion ):
+                if bolt.collided( minion ):
                     self.mat[ x , y ] = 0
+                    ship_bolts.remove( bolt )
+                    break
+
         

@@ -48,7 +48,7 @@ SHIP_POS = ( 0 , ( SCREEN_H - SHIP_H )/2 )
 
 BOLT_SPR = 'assets/game_sprites/bolt.png'
 BOLT_SPEED = 500
-BOLT_RELOAD = .6
+BOLT_RELOAD = .3
 
 MINION_W = 21
 MINION_H = 26
