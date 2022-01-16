@@ -68,6 +68,9 @@ SCORE_K   = .7
 
 SCORE_FONT = 16
 SCORE_POS  = ( SCREEN_W/2 , 20 )
+
+MINION_FIRE_WAIT  = .3
+MINION_FIRE_NOISE = .03
 #---------------------------------------------------
 #Dificulade
 EASY = 0

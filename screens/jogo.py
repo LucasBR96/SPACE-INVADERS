@@ -75,7 +75,7 @@ class Play:
         x , y = minion.x , minion.y
         
         bolt = Sprite( BOLT_SPR )
-        bolt.x = x + bolt.width
+        bolt.x = x - bolt.width
         bolt.y = y + MINION_H/2
         Play.minions_bolts.append( bolt )
 
@@ -129,8 +129,9 @@ class Play:
     def render_objects( window ):
 
         Play.ship.draw()
-        for bolt in Play.ship_bolts:
-            bolt.draw()
+        for seq in [ Play.ship_bolts , Play.minions_bolts ]:
+            for bolt in seq:
+                bolt.draw()
         
         mat = Play.minions
         for minion in mat.yield_minions():
@@ -157,6 +158,7 @@ class Play:
 
         Play.minions.move( Play.last_dt )
         Play.minions.adjust()
+        Play.fire_minion()
         count = Play.minions.check_bolt_collision( Play.ship_bolts )
         if count is None:
             return
