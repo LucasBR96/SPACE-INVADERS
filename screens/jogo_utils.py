@@ -95,7 +95,8 @@ class minion_matrix:
         '''
         retorna as posicoes de todos os minions que podem ser
         atingidos pelo laser da nave. Ou todos que podem atirar
-        na tal nave 
+        na tal nave. O criterio para ser elegível é não existir
+        um outro minion entre a posição e a nave 
         '''
 
         posicoes = []
@@ -111,9 +112,17 @@ class minion_matrix:
 
     def check_bolt_collision( self , ship_bolts ):
 
+        '''
+        Verifica se algum disparo da nave vai atingiu algum minion
+        Essa é a versão ja otimizada
+        '''
+
         if not ship_bolts:
             return
 
+        #----------------------------------------------------------
+        # Primeiro são selecionadas as posições vulneraveis aos disparos
+        # da nave, e cria-se um caixa de colisão ao redor delas 
         posicoes = self.eligible_for_col()
         m  = [ self.minion_pos( x , y ) for x , y in posicoes ]
         xs = [ x for ( x , _ ) in m ]
@@ -123,6 +132,9 @@ class minion_matrix:
         box_y1 = min( ys )
         box_y2 = max( ys ) + MINION_H
 
+        #---------------------------------------------------------
+        # Agora são selecionados os projeteis que interceptam tal
+        # caixa
         candidate_bolts = []
         for bolt in ship_bolts:
             
@@ -131,7 +143,11 @@ class minion_matrix:
             c = ( bolt.y > box_y2 )
             if any( [ a , b , c ] ):
                 continue
-
+            
+            # ---------------------------------------------------
+            # como os disparos estão ordenados da nave para os minions
+            # qualquer projetil a partir da primeira que esteja atrás 
+            # da caixa pode ser descartado.
             if bolt.x > box_x2:
                 break
 
@@ -140,6 +156,9 @@ class minion_matrix:
         if not candidate_bolts:
             return
         
+        #---------------------------------------------------------
+        # depois de filtrados os bolts e minions, agora da pra testar para
+        # valer
         count = 0
         for bolt in candidate_bolts:
             for x , y  in posicoes:

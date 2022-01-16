@@ -23,7 +23,8 @@ class Play:
         Play.last_hit   = time.time()
         Play.score      = 0
 
-        Play.minions = jogo_utils.minion_matrix()
+        Play.minions       = jogo_utils.minion_matrix()
+        Play.minions_bolts = deque([])
         Play.diff = EASY
 
     @staticmethod
