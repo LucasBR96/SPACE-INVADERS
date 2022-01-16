@@ -45,6 +45,9 @@ SHIP_SPEED = 200 #pixels per second
 
 SHIP_LIFES = [ 7 , 5 , 3 ]
 
+SHIP_INVC = 2.
+SHIP_BLINK_TIME = SHIP_INVC/8
+
 SHIP_SPR = 'assets/game_sprites/nave.png'
 SHIP_POS = ( 0 , ( SCREEN_H - SHIP_H )/2 )
 

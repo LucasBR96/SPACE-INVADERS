@@ -1,7 +1,8 @@
+import time
+
 import pygame
 from pygame.locals import *
 pygame.init()
-
 import numpy
 
 import PPlay
@@ -11,13 +12,15 @@ from constantes import *
 
 class ship( Sprite ):
 
-    def __init__( self , lifes = 2  ):
+    def __init__( self , lifes = 5  ):
 
         super().__init__( SHIP_SPR )
         self.set_position( *SHIP_POS )
         self.last_fire = None
 
-        self.lifes = lifes
+        self.lifes      = lifes
+        self.invincible = False
+        self.last_hit   = 0
     
     def adjust( self ):
 
@@ -27,15 +30,28 @@ class ship( Sprite ):
         if self.y + self.height > SCREEN_H:
             self.y = SCREEN_H - self.height
     
-    def update_life_count( self ):
+    def update_life_count( self , last_t ):
+
+        self.last_hit = last_t
 
         self.lifes -= 1
         self.set_position( *SHIP_POS )
         return self.lifes <= 0
     
+    def should_draw( self ):
+
+        self.invincible = ( time.time() - self.last_hit < SHIP_INVC ) 
+        if not self.invincible:
+            return True
+        
+        delta_t = time.time() - self.last_hit
+        k = numpy.floor( delta_t/SHIP_BLINK_TIME )
+        return int( k )%2 == 0
+    
+
     def check_bolt_collision( self , minion_bolts ):
 
-        if not minion_bolts:
+        if self.invincible or not minion_bolts:
             return
 
         result = None

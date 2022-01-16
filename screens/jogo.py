@@ -128,7 +128,11 @@ class Play:
     @staticmethod
     def render_objects( window ):
 
-        Play.ship.draw()
+        if Play.ship.should_draw():
+            Play.ship.draw()
+        # else:
+        #     Play.ship.hide()
+
         for seq in [ Play.ship_bolts , Play.minions_bolts ]:
             for bolt in seq:
                 bolt.draw()
@@ -140,6 +144,9 @@ class Play:
         #renderizando o score
         s = "{:.2f}".format( Play.score )
         window.draw_text( s , SCREEN_W/2, 20 , size = SCORE_FONT , color = ( 255 , 255 , 255 ) )
+
+        s = "Vidas: {}".format( Play.ship.lifes )
+        window.draw_text( s , 3*SCREEN_W/4, 20 , size = SCORE_FONT , color = ( 255 , 255 , 255 ) )
 
     @staticmethod
     def update( ):
@@ -172,7 +179,7 @@ class Play:
         result = Play.ship.check_bolt_collision( Play.minions_bolts )
         if not ( result is None ):
             Play.minions_bolts.remove( result )
-            if Play.ship.update_life_count():
+            if Play.ship.update_life_count( Play.last_t ):
                 Play.exit()
     
     @staticmethod
