@@ -38,6 +38,7 @@ class minion_matrix:
         self.corner = ( top_corner_x , top_corner_y )
 
         self.moving_up = True
+        self.last_fire = 0
 
     def minion_pos( self , x , y ):
 

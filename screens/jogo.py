@@ -3,7 +3,7 @@ from collections import deque
 
 import PPlay
 from PPlay.sprite import *
-from numpy import exp
+from numpy import exp , random
 
 from constantes import *
 from screens import jogo_utils
@@ -57,6 +57,30 @@ class Play:
         Play.ship_bolts.appendleft( bolt )
     
     @staticmethod
+    def fire_minion():
+
+        minions = Play.minions
+        if minions.last_fire == 0:
+            minions.last_fire = Play.last_t
+        
+        wait_time = MINION_FIRE_WAIT + MINION_FIRE_NOISE*random.normal()
+        if not( Play.last_t - minions.last_fire > wait_time ):
+            return
+        minions.last_fire = Play.last_t
+
+        positions = minions.eligible_for_col()
+        idx = random.choice( len( positions ) )
+        x , y  = positions[ idx ]
+        minion = minions.spawn_minion( x , y )
+        x , y = minion.x , minion.y
+        
+        bolt = Sprite( BOLT_SPR )
+        bolt.x = x + bolt.width
+        bolt.y = y + MINION_H/2
+        Play.minions_bolts.append( bolt )
+
+    
+    @staticmethod
     def update_scores( count ):
         
         if count == 0:
@@ -69,21 +93,37 @@ class Play:
         Play.score += score
 
     @staticmethod
-    def bolt_update():
+    def bolt_update( ship = True ):
 
         dx = BOLT_SPEED*Play.last_dt
-        for bolt in Play.ship_bolts:
-            if bolt.x > SCREEN_W:
-                break
-            bolt.x += dx
-        
-        # removendo os bolts que sairam da tela
-        while Play.ship_bolts:
 
-            bolt = Play.ship_bolts.pop()
-            if bolt.x < SCREEN_W:
-                Play.ship_bolts.append( bolt )
-                break
+        if ship:
+            for bolt in Play.ship_bolts:
+                if bolt.x > SCREEN_W:
+                    break
+                bolt.x += dx
+            
+            # removendo os bolts que sairam da tela
+            while Play.ship_bolts:
+
+                bolt = Play.ship_bolts.pop()
+                if bolt.x < SCREEN_W:
+                    Play.ship_bolts.append( bolt )
+                    break
+
+        else:
+            for bolt in Play.minions_bolts:
+                if bolt.x + bolt.width < 0:
+                    continue
+                bolt.x -= dx
+            
+            # removendo os bolts que sairam da tela
+            while Play.minions_bolts:
+
+                bolt = Play.minions_bolts.popleft()
+                if bolt.x + bolt.width > 0:
+                    Play.minions_bolts.appendleft( bolt )
+                    break
             
     @staticmethod
     def render_objects( window ):
@@ -113,6 +153,7 @@ class Play:
         
         Play.ship.adjust() # ver se o ship escapou da tela
         Play.bolt_update() # calculando as posicoes dos tiros
+        Play.bolt_update( False )
 
         Play.minions.move( Play.last_dt )
         Play.minions.adjust()
