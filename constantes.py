@@ -43,6 +43,8 @@ SHIP_W = 48
 SHIP_H = 52
 SHIP_SPEED = 200 #pixels per second
 
+SHIP_LIFES = [ 7 , 5 , 3 ]
+
 SHIP_SPR = 'assets/game_sprites/nave.png'
 SHIP_POS = ( 0 , ( SCREEN_H - SHIP_H )/2 )
 

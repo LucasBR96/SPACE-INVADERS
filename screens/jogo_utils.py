@@ -11,11 +11,13 @@ from constantes import *
 
 class ship( Sprite ):
 
-    def __init__( self ):
+    def __init__( self , lifes = 2  ):
 
         super().__init__( SHIP_SPR )
         self.set_position( *SHIP_POS )
         self.last_fire = None
+
+        self.lifes = lifes
     
     def adjust( self ):
 
@@ -24,7 +26,31 @@ class ship( Sprite ):
         
         if self.y + self.height > SCREEN_H:
             self.y = SCREEN_H - self.height
+    
+    def update_life_count( self ):
 
+        self.lifes -= 1
+        self.set_position( *SHIP_POS )
+        return self.lifes <= 0
+    
+    def check_bolt_collision( self , minion_bolts ):
+
+        if not minion_bolts:
+            return
+
+        result = None
+        # minion_bolts.sort( key = lambda b : b.x )
+
+        for bolt in minion_bolts:
+
+            if bolt.x > self.x + self.width:
+                break
+
+            if self.collided( bolt ):
+                result = bolt
+                break
+        
+        return result
 class minion_matrix:
 
     def __init__( self , row = MINION_ROW , col = MINION_COL ):

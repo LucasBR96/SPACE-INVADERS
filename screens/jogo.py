@@ -159,18 +159,33 @@ class Play:
         Play.minions.move( Play.last_dt )
         Play.minions.adjust()
         Play.fire_minion()
+
+        Play.check_bolts()
+    
+    @staticmethod
+    def check_bolts():
+
         count = Play.minions.check_bolt_collision( Play.ship_bolts )
-        if count is None:
-            return
-        Play.update_scores( count )
+        if not( count is None ):
+            Play.update_scores( count )
+        
+        result = Play.ship.check_bolt_collision( Play.minions_bolts )
+        if not ( result is None ):
+            Play.minions_bolts.remove( result )
+            if Play.ship.update_life_count():
+                Play.exit()
+    
+    @staticmethod
+    def exit():
+        print( "!" )
+        Play.running = False
+        Play.next_screen = MENU
 
     @staticmethod
     def get_input( kb , ms ):
         
         if kb.key_pressed( "esc" ):
-            print( "!" )
-            Play.running = False
-            Play.next_screen = MENU
+            Play.exit()
 
         a = kb.key_pressed( "up" )
         b = kb.key_pressed( "down" )
